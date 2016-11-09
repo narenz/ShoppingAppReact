@@ -56,7 +56,7 @@ class App extends React.Component {
         <button className='resetButton'
           onClick={this.resetBasket.bind(this)}
           disabled={this.state.productsInCart.length > 0 ? '' : 'disabled'}>
-          Reset basket
+          Reset App
         </button>
         <button className='submitButton'
           onClick={this.checkoutBasket.bind(this)}>

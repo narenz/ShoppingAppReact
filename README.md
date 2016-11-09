@@ -33,7 +33,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 - npm install
 - npm start
-- npm test
+- npm test and select a
 - load http://localhost:3000
 - To modify product inventory please edit ProductListData.json
 - For more information in setup please follow instructions on [Create React App](https://github.com/facebookincubator/create-react-app).
