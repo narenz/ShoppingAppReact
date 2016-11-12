@@ -3,34 +3,38 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import './index.css';
 import { Provider } from 'react-redux';
-import { createStore, combineReducers } from 'redux';
+import { createStore, combineReducers, applyMiddleware } from 'redux';
+import logger from 'redux-logger';
 import products from './Data/ProductListData.json';
 
-const productsInInventoryReducer = (state = products, action) => {
+const productsInInventoryReducer = (state, action) => {
   switch (action.type) {
     case 'RESET_APP':
     case 'FETCH_PRODCTS':
-      state = products;
-      break;
+      return products;
     default:
-      state = products;
+      return [];
   }
-  return state;
 }
 
 const ProductsInBasketReducer = (state = [], action) => {
   switch (action.type) {
     case 'ADD_TO_BASKET':
-      break;
+      return [...state, action.payload.item];
+    case 'RESET_APP':
+      return [];
     default:
+      return [];
   }
-  return state;
 }
 
-const store = createStore(combineReducers({
-  productsInInventoryReducer: productsInInventoryReducer,
-  ProductsInBasketReducer: ProductsInBasketReducer
-}));
+const store = createStore(
+  combineReducers({
+    productsInInventoryReducer: productsInInventoryReducer,
+    ProductsInBasketReducer: ProductsInBasketReducer
+  }),
+  {},
+  applyMiddleware(logger()));
 
 ReactDOM.render(
   <Provider store={store}>
