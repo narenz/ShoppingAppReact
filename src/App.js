@@ -2,22 +2,23 @@ import React from 'react';
 import Productlist from './Components/Productlist';
 import Basket from './Components/Basket';
 import { connect } from 'react-redux';
+import * as userActions from './Actions/actions';
 
 class App extends React.Component {
   componentDidMount() {
-    this.props.getProducts();
+    this.props.dispatch(userActions.getProducts());
   }
 
   onAddToCart(item) {
-    this.props.addItem(item);
+    this.props.dispatch(userActions.addItem(item));
   }
 
   resetBasket() {
-    this.props.resetApp();
+    this.props.dispatch(userActions.resetApp());
   }
 
   checkoutBasket() {
-    this.props.checkout();
+    this.props.dispatch(userActions.checkout());
   }
 
   render() {
@@ -51,24 +52,5 @@ const mapStateToProps = (state) => {
     productsInCart: state.ProductsReducer.basket
   };
 }
-const mapDispatchToProps = (dispatch) => {
-  return {
-    getProducts: () => {
-      dispatch({ type: 'FETCH_PRODCTS' })
-    },
-    resetApp: () => {
-      dispatch({ type: 'RESET_APP' })
-    },
-    checkout: () => {
-      dispatch({ type: 'CHECKOUT' })
-    },
-    addItem: (item) => {
-      dispatch({
-        type: 'ADD_ITEM',
-        payload: item
-      })
-    }
-  }
-}
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(mapStateToProps)(App);
