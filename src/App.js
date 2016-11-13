@@ -4,44 +4,20 @@ import Basket from './Components/Basket';
 import { connect } from 'react-redux';
 
 class App extends React.Component {
-  // constructor() {
-  //   super();
-  //   // this.state = {
-  //   //   productsInCart: []
-  //   // };
-  // }
-
   componentDidMount() {
     this.props.getProducts();
   }
 
   onAddToCart(item) {
-    //const index = this.props.productsInventory.indexOf(item);
-    // let modifiedItemQuantity = Object.assign(
-    //   {},
-    //   this.props.productsInventory[index],
-    //   { quantity: this.props.productsInventory[index].quantity - 1 })
-
-    // this.setState({
-    //   // productsInventory: [
-    //   //   ...this.state.productsInventory.slice(0, index),
-    //   //   modifiedItemQuantity,
-    //   //   ...this.state.productsInventory.slice(index + 1)
-    //   // ],
-    //   productsInCart: [...this.state.productsInCart, Object.assign({}, item, { id: this.state.productsInCart.length })]
-    // });
+    this.props.addItem(item);
   }
 
   resetBasket() {
-    // this.setState({
-    //   productsInCart: [],
-    // });
+    this.props.resetApp();
   }
 
   checkoutBasket() {
-    // this.setState({
-    //   productsInCart: []
-    // })
+    this.props.checkout();
   }
 
   render() {
@@ -71,15 +47,25 @@ class App extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    productsInventory: state.productsInInventoryReducer,
-    productsInCart: state.ProductsInBasketReducer
+    productsInventory: state.ProductsReducer.inventory,
+    productsInCart: state.ProductsReducer.basket
   };
 }
 const mapDispatchToProps = (dispatch) => {
   return {
     getProducts: () => {
+      dispatch({ type: 'FETCH_PRODCTS' })
+    },
+    resetApp: () => {
+      dispatch({ type: 'RESET_APP' })
+    },
+    checkout: () => {
+      dispatch({ type: 'CHECKOUT' })
+    },
+    addItem: (item) => {
       dispatch({
-        type: 'FETCH_PRODCTS'
+        type: 'ADD_ITEM',
+        payload: item
       })
     }
   }

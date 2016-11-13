@@ -7,31 +7,36 @@ import { createStore, combineReducers, applyMiddleware } from 'redux';
 import logger from 'redux-logger';
 import products from './Data/ProductListData.json';
 
-const productsInInventoryReducer = (state, action) => {
+const initialState = {
+  inventory: products,
+  basket: []
+}
+
+const ProductsReducer = (state = initialState, action) => {
   switch (action.type) {
     case 'RESET_APP':
     case 'FETCH_PRODCTS':
-      return products;
+      return initialState;
+    case 'CHECKOUT':
+      return { ...state,
+               basket: [] };
+    case 'ADD_ITEM':
+      const index = state.inventory.indexOf(action.payload);
+      let modifiedItemQuantity = { ...state.inventory[index], quantity: state.inventory[index].quantity - 1 }
+      return {  ...state,
+                basket: [...state.basket, { ...action.payload, id:state.basket.length  }],
+                inventory: [  ...state.inventory.slice(0, index),
+                              modifiedItemQuantity,
+                              ...state.inventory.slice(index + 1) ]
+              };
     default:
-      return [];
-  }
-}
-
-const ProductsInBasketReducer = (state = [], action) => {
-  switch (action.type) {
-    case 'ADD_TO_BASKET':
-      return [...state, action.payload.item];
-    case 'RESET_APP':
-      return [];
-    default:
-      return [];
+      return initialState;
   }
 }
 
 const store = createStore(
   combineReducers({
-    productsInInventoryReducer: productsInInventoryReducer,
-    ProductsInBasketReducer: ProductsInBasketReducer
+    ProductsReducer: ProductsReducer
   }),
   {},
   applyMiddleware(logger()));
