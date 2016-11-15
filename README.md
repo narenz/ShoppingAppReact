@@ -22,7 +22,6 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 # Things that could have been improved
 
-- Could have used Redux to manage the APP state instead of maintaining in the App component
 - Could have added basic Bootstrap3 CSS to improve the basic UI
 - Better test coverage but as I run out of time
 - Could have improved npm install performance by productionising the create-react-app
